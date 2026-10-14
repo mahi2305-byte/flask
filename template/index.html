@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ shop }}</title>
+</head>
+<body>
+    {# {{ }} prints a Python variable sent from app.py #}
+    <h1 style="color: brown;">Welcome to my shop {{ shop }}</h1>
+    <p>My shop is located in Pune.</p>
+    <a href="{{ url_for('product') }}">View products</a>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f7f5f0; margin: 0; }
+        nav { background: #16202e; color: white; padding: 16px; font-size: 20px; }
+        nav a { color: white; margin-left: 20px; font-size: 16px; }
+        .grid { display: flex; gap: 16px; padding: 20px; flex-wrap: wrap; }
+        .card { background: white; padding: 16px; border-radius: 8px; width: 200px; }
+        .sale { color: #b84e00; font-weight: bold; }
+        .out { color: red; }
+    </style>
+</head>
+<body>
+    <nav>{{ shop }} <a href="/">Home</a> <a href="{{ url_for('add_product') }}">Add product</a></nav>
+
+    {# {{ }} = print a value. |length is a filter (counts items) #}
+    <h2 style="padding: 0 20px;">{{ products|length }} products found</h2>
+
+    <div class="grid">
+    {# Curly-percent tags are logic (loops and conditions). They print nothing themselves #}
+    {% for p in products %}
+      <div class="card">
+        <h3>{{ p.name }}</h3>
+        <p>${{ p.price|round(2) }}</p>
+
+        {% if p.price < 30 %}
+          <p class="sale">SALE</p>
+        {% endif %}
+
+        {% if p.stock > 0 %}
+          <button>Add to cart</button>
+        {% else %}
+          <p class="out">Out of stock</p>
+        {% endif %}
+
+        <!-- POST form so the delete button calls /delete/<id> -->
+        <form method="POST" action="{{ url_for('delete_product', id=p.id) }}">
+          <button type="submit">Delete</button>
+        </form>
+      </div>
+    {% endfor %}
+    </div>
+</body>
+</html>
